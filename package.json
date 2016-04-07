@@ -1,0 +1,23 @@
+{
+  "name": "unitest",
+  "version": "0.0.0",
+  "description": "Run browser and node tests with coverage reports",
+  "author": "Ryan Tsao <ryan.j.tsao@gmail.com>",
+  "repository": "git@github.com:rtsao/unitest.git",
+  "homepage": "https://github.com/rtsao/unitest",
+  "bugs": "https://github.com/rtsao/unitest/issues",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "dependencies": {
+    "electron-prebuilt": "^0.37.4",
+    "minimist": "^1.2.0",
+    "tap-finished": "0.0.1",
+    "tap-merge": "^0.3.1"
+  },
+  "devDependencies": {
+    "tape": "^4.4.0"
+  },
+  "license": "MIT"
+}
