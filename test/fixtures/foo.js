@@ -13,3 +13,8 @@ test(env + ' test2', function (t) {
     t.pass(env + ' async assertion');
   }, process.browser ? 500 : 100);
 });
+
+/**
+ * Mock coverage
+ */
+global.__coverage__ = {};

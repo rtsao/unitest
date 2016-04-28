@@ -6,16 +6,17 @@ var multistream = require('multistream');
 
 var runNode = require('./run-node');
 var runElectron = require('./run-electron');
+var reportCoverage = require('./report-coverage');
 
 function run(opts) {
   if (opts.electron && opts.node) {
 
     var electron = runElectron(opts.electron, function onCoverage(coverage) {
-      // do something with coverage
+      addCoverage(coverage);
     });
 
     var node = runNode(opts.node, function onCoverage(coverage) {
-      // do something with coverage
+      addCoverage(coverage);
     });
 
     var nodeTap = passthrough();
@@ -34,3 +35,12 @@ function run(opts) {
 }
 
 module.exports = run;
+
+var coverageObjects = [];
+
+function addCoverage(object) {
+  coverageObjects.push(object);
+  if (coverageObjects.length === 2) {
+    reportCoverage(coverageObjects);
+  }
+}

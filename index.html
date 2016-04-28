@@ -3,24 +3,5 @@
   <title>Electron</title>
 </head>
 <body>
-  <script>
-  process.browser = true;
-  // redirect log to stdout
-  console.log = require('console').log;
-  process.exit = require('remote').require('app').quit;
-  // redirect errors to stderr
-  window.addEventListener('error', function (e) {
-    e.preventDefault();
-    require('console').error(e.error.stack || 'Uncaught ' + e.error);
-  });
-  // setup stuff
-  require('./ipc-helpers/dump-electron');
-
-  require('process').stdout.on('data', function() {
-    console.log('asdf');
-    // require('remote').require('app').quit();
-  });
-
-  </script>
 </body>
 </html>
