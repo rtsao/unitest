@@ -8,7 +8,7 @@ Seamless node and browser unit testing with code coverage
 
 ##### Features
 
-- Unified TAP, code coverage, and exit code for node and browser tests.
+- Unified node and browser test TAP, code coverage, and exit code output.
 - Electron-powered browser testing for a fast, modern, headless browser environment.
 - Works with coverage instrumentation Babel plugins. This means faster coverage instrumentation if you are already using Babel.
 - All `istanbul` coverage reporting options, including HTML, cobertura, etc.
