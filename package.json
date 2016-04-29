@@ -1,6 +1,6 @@
 {
   "name": "unitest",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Run browser and node tests with coverage reports",
   "author": "Ryan Tsao <ryan.j.tsao@gmail.com>",
   "repository": "git@github.com:rtsao/unitest.git",
