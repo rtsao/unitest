@@ -1,7 +1,10 @@
 # unitest
-Seamless node and browser unit testing with code coverage
 
-*NOTE: This is a work in progress. Not ready for use yet.*
+[![build status][build-badge]][build-href]
+[![dependencies status][deps-badge]][deps-href]
+[![npm version][npm-badge]][npm-href]
+
+Seamless node and browser unit testing with code coverage
 
 Features
 
@@ -74,3 +77,10 @@ No magic here, just use [`devtool`](https://github.com/Jam3/devtool).
 npm i -g devtool
 devtool build/test/browser-bundle.js
 ```
+
+[build-badge]: https://travis-ci.org/rtsao/unitest.svg?branch=master
+[build-href]: https://travis-ci.org/rtsao/unitest
+[deps-badge]: https://david-dm.org/rtsao/unitest.svg
+[deps-href]: https://david-dm.org/rtsao/unitest
+[npm-badge]: https://badge.fury.io/js/unitest.svg
+[npm-href]: https://www.npmjs.com/package/unitest
