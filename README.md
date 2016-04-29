@@ -8,9 +8,10 @@ Seamless node and browser unit testing with code coverage
 
 ##### Features
 
-- Unified TAP and code coverage output for node and browser tests.
-- Works with coverage instrumentation Babel plugins. This means faster coverage  instrumentation if you are already using Babel.
+- Unified TAP, code coverage, and exit code for node and browser tests.
 - Electron-powered browser testing for a fast, modern, headless browser environment.
+- Works with coverage instrumentation Babel plugins. This means faster coverage instrumentation if you are already using Babel.
+- All `istanbul` coverage reporting options, including HTML, cobertura, etc.
 - Bundler-agnostic usage. Use browserify/webpack or something else.
 
 ## Usage
@@ -65,7 +66,7 @@ The separate TAP and coverage output along with exit code for your node and brow
 No magic here, just use [`node-inspector`](https://github.com/node-inspector/node-inspector).
 
 ```
-npm i -g node-inspector
+npm install node-inspector -g
 node-debug build/test/node.js
 ```
 
@@ -74,7 +75,7 @@ node-debug build/test/node.js
 No magic here, just use [`devtool`](https://github.com/Jam3/devtool).
 
 ```
-npm i -g devtool
+npm install devtool -g
 devtool build/test/browser-bundle.js
 ```
 
