@@ -8,6 +8,7 @@ console.log = require('console').log;
 window.addEventListener('error', function (e) {
   e.preventDefault();
   require('console').error(e.error.stack || 'Uncaught ' + e.error);
+  process.exit(1);
 });
 // setup stuff
 require('../ipc-helpers/dump-electron');
