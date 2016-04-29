@@ -31,6 +31,7 @@ function run(opts) {
     var node = runNode(opts.node, coverageHandler);
     var nodeTap = passthrough();
     node.stdout.pipe(nodeTap);
+    node.stderr.pipe(process.stderr);
     outputs.push(nodeTap);
   }
 
@@ -38,6 +39,7 @@ function run(opts) {
     var electron = runElectron(opts.browser, coverageHandler);
     var electronTap = passthrough();
     electron.stdout.pipe(electronTap);
+    electron.stderr.pipe(process.stderr);
     outputs.push(electronTap);
   }
 
