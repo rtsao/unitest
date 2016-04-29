@@ -8,16 +8,18 @@ var runNode = require('./run-node');
 var runElectron = require('./run-electron');
 var reportCoverage = require('./report-coverage');
 
+var coverageObjects = [];
+
 function run(opts) {
-  if (opts.electron && opts.node) {
+  function coverageHandler(coverage) {
+    if (opts.report) {
+      addCoverage(coverage, opts.report);
+    }
+  }
 
-    var electron = runElectron(opts.electron, function onCoverage(coverage) {
-      addCoverage(coverage);
-    });
-
-    var node = runNode(opts.node, function onCoverage(coverage) {
-      addCoverage(coverage);
-    });
+  if (opts.browser && opts.node) {
+    var electron = runElectron(opts.browser, coverageHandler);
+    var node = runNode(opts.node, coverageHandler);
 
     var nodeTap = passthrough();
     var electronTap = passthrough();
@@ -31,16 +33,14 @@ function run(opts) {
     allTap.pipe(merged);
 
     merged.pipe(process.stdout);
+    merged.on('end', function() {
+      reportCoverage(coverageObjects, opts.report);
+    });
   }
 }
 
 module.exports = run;
 
-var coverageObjects = [];
-
-function addCoverage(object) {
+function addCoverage(object, report) {
   coverageObjects.push(object);
-  if (coverageObjects.length === 2) {
-    reportCoverage(coverageObjects);
-  }
 }

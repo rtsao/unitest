@@ -29,7 +29,7 @@ unitest --browser=build/test/browser-bundle.js --node=build/test/node.js
 Running tests with coverage involves the exact same steps, but with an additional coverage instrumentation plugin.
 
 ```
-babel src -d build --plugins=coverage
+babel src -d build --plugins=__coverage__
 browserify build/test/browser.js > build/test/browser-bundle.js
 unitest --browser=build/test/browser.js --node=build/test/node.js --report=html
 ```

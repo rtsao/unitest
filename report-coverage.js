@@ -12,10 +12,7 @@ function report(objects, reports) {
 
   reporter.addAll(reports);
 
-// reporter.write(collector, sync, function () {
-//   console.log('All reports generated');
-// });
-
+  reporter.write(collector, true, function() {});
 }
 
 module.exports = report;

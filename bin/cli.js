@@ -3,4 +3,7 @@
 var argv = require('minimist')(process.argv.slice(2));
 var unitest = require('../');
 
-unitest({node: argv.node, electron: argv.electron});
+var report = (argv.report && typeof argv.report === 'string') ?
+  [argv.report] : argv.report;
+
+unitest({node: argv.node, browser: argv.browser, report: report});

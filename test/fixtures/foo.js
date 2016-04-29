@@ -15,6 +15,6 @@ test(env + ' test2', function (t) {
 });
 
 /**
- * Mock coverage
+ * Mock coverage object
  */
 global.__coverage__ = {};
