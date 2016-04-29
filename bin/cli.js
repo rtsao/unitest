@@ -1,9 +1,32 @@
 #!/usr/bin/env node
 
-var argv = require('minimist')(process.argv.slice(2));
-var unitest = require('../');
+var fs = require('fs');
+var minimist = require('minimist');
 
-var report = (argv.report && typeof argv.report === 'string') ?
-  [argv.report] : argv.report;
+var argv = minimist(process.argv.slice(2), {
+  alias: {
+    n: 'node',
+    b: 'browser',
+    r: 'report',
+    h: 'help',
+    v: 'version'
+  }
+});
 
-unitest({node: argv.node, browser: argv.browser, report: report});
+if (argv.help) {
+  fs.createReadStream('bin/usage.txt').pipe(process.stdout);
+} else if (argv.version) {
+  var pkg = require('../package.json');
+  console.log(pkg.version);
+} else {
+  var unitest = require('../');
+  unitest({
+    node: argv.node,
+    browser: argv.browser,
+    report: ensureArray(argv.report)
+  });
+}
+
+function ensureArray(arg) {
+  return (arg && typeof arg === 'string') ? [arg] : arg;
+}

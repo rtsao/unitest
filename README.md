@@ -11,10 +11,27 @@ Features
 - Bundler-agnostic usage. Use browserify/webpack or something else.
 
 ## Usage
+```
+Usage: unitest {OPTIONS}
+
+Options:
+
+    --version, -v  Print version and exit
+
+       --help, -h  Print usage information
+
+       --node, -n  Path to node test entry file
+
+    --browser, -c  Path to browser test entry file
+
+     --report, -r  Istanbul coverage report
+```
+
+## Getting Started
 
 ### Run node and browser tests
 
-1. Transpile source code to ES5 with `babel-cli`
+1. Transpile source code with Babel *(optional)*
 2. Bundle browser code *(this step is possibly optional since `require` works in electron)*
 3. Run `unitest`, specifying test entry files
 
@@ -26,7 +43,7 @@ unitest --browser=build/test/browser-bundle.js --node=build/test/node.js
 
 ### Run node and browser tests with coverage report
 
-Running tests with coverage involves the exact same steps, but with an additional coverage instrumentation plugin.
+Running tests with coverage involves the exact same steps, but with an additional [coverage instrumentation Babel plugin](https://github.com/dtinth/babel-plugin-__coverage__).
 
 ```
 babel src -d build --plugins=__coverage__
@@ -57,4 +74,3 @@ No magic here, just use [`devtool`](https://github.com/Jam3/devtool).
 npm i -g devtool
 devtool build/test/browser-bundle.js
 ```
-

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "electron-prebuilt": "^0.37.4",
+    "exit-code": "^1.0.2",
     "istanbul": "^0.4.3",
     "minimist": "^1.2.0",
     "multistream": "^2.0.5",

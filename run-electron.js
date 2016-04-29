@@ -2,7 +2,6 @@
 
 var spawn = require('child_process').spawn;
 var electron = require('electron-prebuilt');
-
 var finished = require('tap-finished');
 
 function runElectron(entry, cb) {
@@ -11,7 +10,6 @@ function runElectron(entry, cb) {
     child.send({done: true});
   });
   child.stdout.pipe(stream);
-
 
   child.on('message', function(message) {
     cb(message.coverage);
