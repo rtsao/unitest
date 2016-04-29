@@ -7,6 +7,7 @@
   "homepage": "https://github.com/rtsao/unitest",
   "bugs": "https://github.com/rtsao/unitest/issues",
   "main": "index.js",
+  "bin": "bin/cli.js",
   "scripts": {
     "test": "node test/index.js"
   },
