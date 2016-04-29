@@ -6,7 +6,7 @@
 
 Seamless node and browser unit testing with code coverage
 
-Features
+##### Features
 
 - Unified TAP and code coverage output for node and browser tests.
 - Works with coverage instrumentation Babel plugins. This means faster coverage  instrumentation if you are already using Babel.
