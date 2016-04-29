@@ -1,7 +1,5 @@
 'use strict';
 
-require('exit-code');
-
 var fs = require('fs');
 var passthrough = require('stream').PassThrough;
 var merge = require('tap-merge');
@@ -12,6 +10,10 @@ var runElectron = require('./run-electron');
 var reportCoverage = require('./report-coverage');
 
 function run(opts) {
+  if (!opts.node && !opts.browser) {
+    throw Error('No browser or node test entry specified');
+  }
+
   var coverageObjects = [];
   var outputs = [];
 
@@ -19,12 +21,6 @@ function run(opts) {
     if (opts.report && coverage) {
       coverageObjects.push(coverage);
     }
-  }
-
-  if (!opts.node && !opts.browser) {
-    fs.createReadStream('./bin/usage.txt').pipe(process.stdout);
-    process.exitCode = 1;
-    return false;
   }
 
   if (opts.node) {

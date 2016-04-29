@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+require('exit-code');
+
 var fs = require('fs');
 var minimist = require('minimist');
 
@@ -14,19 +16,30 @@ var argv = minimist(process.argv.slice(2), {
 });
 
 if (argv.help) {
-  fs.createReadStream('bin/usage.txt').pipe(process.stdout);
+  logHelp();
 } else if (argv.version) {
-  var pkg = require('../package.json');
-  console.log(pkg.version);
-} else {
+  logVersion();
+} else if (argv.node || argv.browser) {
   var unitest = require('../');
   unitest({
     node: argv.node,
     browser: argv.browser,
     report: ensureArray(argv.report)
   });
+} else {
+  logHelp();
+  process.exitCode = 1;
 }
 
 function ensureArray(arg) {
   return (arg && typeof arg === 'string') ? [arg] : arg;
+}
+
+function logHelp() {
+  fs.createReadStream('bin/usage.txt').pipe(process.stdout);
+}
+
+function logVersion() {
+  var pkg = require('../package.json');
+  console.log(pkg.version);
 }
