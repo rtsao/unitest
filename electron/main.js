@@ -17,6 +17,6 @@ app.on('ready', function () {
       win.webContents.send('tap-finished', true);
     }
   });
-  win.webContents.executeJavaScript('require("./electron-renderer-script");');
+  win.webContents.executeJavaScript('require("./renderer");');
   win.webContents.executeJavaScript('require("' + process.argv[2] + '");');
 });

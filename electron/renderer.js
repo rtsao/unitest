@@ -10,4 +10,4 @@ window.addEventListener('error', function (e) {
   require('console').error(e.error.stack || 'Uncaught ' + e.error);
 });
 // setup stuff
-require('./ipc-helpers/dump-electron');
+require('../ipc-helpers/dump-electron');
