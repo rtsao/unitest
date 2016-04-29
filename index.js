@@ -16,7 +16,7 @@ function run(opts) {
   var outputs = [];
 
   function coverageHandler(coverage) {
-    if (opts.report) {
+    if (opts.report && coverage) {
       coverageObjects.push(coverage);
     }
   }

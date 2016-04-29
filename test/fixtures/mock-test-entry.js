@@ -1,13 +1,15 @@
-var test = require('tape');
+'use strict';
 
 var env = process.browser ? 'electron' : 'node';
+
+var test = require('tape');
 
 test(env + ' test 1', function (t) {
   t.pass(env + ' assertion');
   t.end();
 });
 
-test(env + ' test2', function (t) {
+test(env + ' test 2', function (t) {
   t.plan(1);
   setTimeout(function() {
     t.pass(env + ' async assertion');
