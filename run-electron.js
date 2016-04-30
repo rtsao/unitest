@@ -8,7 +8,7 @@ var finished = require('tap-finished');
 var cwd = process.cwd();
 
 function runElectron(entry, cb) {
-  var absoluteEntryPath = path.join(cwd, entry);
+  var absoluteEntryPath = path.resolve(cwd, entry);
   var mainPath = path.join(__dirname, './electron/main.js');
   var child = spawn(electron, [mainPath, absoluteEntryPath], {
     stdio: [null, null, null, 'ipc']
