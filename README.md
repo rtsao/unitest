@@ -1,4 +1,4 @@
-# unitest
+# [![unitest logo](https://cdn.rawgit.com/rtsao/unitest/logo/logo.svg "unitest")](https://github.com/rtsao/unitest)
 
 [![build status][build-badge]][build-href]
 [![dependencies status][deps-badge]][deps-href]
