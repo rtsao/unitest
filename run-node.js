@@ -1,5 +1,6 @@
 'use strict';
 
+require('exit-code');
 var path = require('path');
 var spawn = require('child_process').spawn;
 var finished = require('tap-finished');
@@ -12,6 +13,12 @@ function runNode(entry, cb) {
   var child = spawn('node', [], {stdio: [null, null, null, 'ipc']});
   child.on('message', function(message) {
     cb(message.coverage);
+  });
+
+  child.on('exit', function(code) {
+    if (code) {
+      process.exitCode = code;
+    }
   });
 
   child.stdout.pipe(finished(function (results) {

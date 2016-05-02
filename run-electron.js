@@ -22,6 +22,12 @@ function runElectron(entry, cb) {
     }
   }));
 
+  child.on('exit', function(code) {
+    if (code) {
+      process.exitCode = code;
+    }
+  });
+
   child.on('message', function(message) {
     cb(message.coverage);
   });
