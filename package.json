@@ -21,7 +21,7 @@
     "tap-merge": "^0.3.1"
   },
   "devDependencies": {
-    "tap-parser": "^1.2.2",
+    "tap-parser": "~0.2.0",
     "tape": "^4.4.0"
   },
   "license": "MIT"

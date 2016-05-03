@@ -79,6 +79,6 @@ test('tap merging', function (t) {
     '--browser', passingEntry
   ]);
   child.stdout.pipe(parser(function (results) {
-    t.equal(results.count, 2);
+    t.equal(results.asserts.length, 2);
   }));
 });
