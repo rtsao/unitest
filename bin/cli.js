@@ -3,6 +3,7 @@
 require('exit-code');
 
 var fs = require('fs');
+var path = require('path');
 var minimist = require('minimist');
 
 var argv = minimist(process.argv.slice(2), {
@@ -36,7 +37,8 @@ function ensureArray(arg) {
 }
 
 function logHelp() {
-  fs.createReadStream('bin/usage.txt').pipe(process.stdout);
+  fs.createReadStream(path.join(__dirname, 'bin/usage.txt'))
+    .pipe(process.stdout);
 }
 
 function logVersion() {
