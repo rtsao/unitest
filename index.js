@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var path = require('path');
 var passthrough = require('stream').PassThrough;
 var merge = require('tap-merge');
 var multistream = require('multistream');
@@ -23,29 +24,28 @@ function run(opts) {
     }
   }
 
+  function runTest(runner, entry) {
+    var sub = runner(path.resolve(process.cwd(), entry), coverageHandler);
+    var tap = passthrough();
+    sub.stdout.pipe(tap);
+    sub.stderr.pipe(process.stderr);
+    outputs.push(tap);
+  }
+
   if (opts.node) {
-    var node = runNode(opts.node, coverageHandler);
-    var nodeTap = passthrough();
-    node.stdout.pipe(nodeTap);
-    node.stderr.pipe(process.stderr);
-    outputs.push(nodeTap);
+    runTest(runNode, opts.node);
   }
 
   if (opts.browser) {
-    var electron = runElectron(opts.browser, coverageHandler);
-    var electronTap = passthrough();
-    electron.stdout.pipe(electronTap);
-    electron.stderr.pipe(process.stderr);
-    outputs.push(electronTap);
+    runTest(runElectron, opts.browser);
   }
 
   var allTap = multistream(outputs);
-
   var merged = merge();
+
   allTap.pipe(merged);
-
   merged.pipe(process.stdout);
-
+  
   if (opts.report) {
     merged.on('end', function() {
       reportCoverage(coverageObjects, opts.report);
