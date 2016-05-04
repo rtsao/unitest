@@ -8,11 +8,12 @@ Seamless node and browser unit testing with code coverage
 
 ##### Features
 
-- Unified node and browser test TAP, code coverage, and exit code output.
-- Electron-powered browser testing for a fast, modern, headless browser environment.
-- Works with coverage instrumentation Babel plugins. This means faster coverage instrumentation if you are already using Babel.
-- All `istanbul` coverage reporting options, including HTML, cobertura, etc.
-- Bundler-agnostic usage. Use browserify/webpack or something else.
+- Unified node and browser tests with merged TAP output, code coverage reports, and exit status codes.
+- [Electron](https://github.com/electron/electron)-powered browser testing for a fast, modern browser testing environment.
+- Bundler-agnostic usage. Use browserify, webpack, or something else.
+- Designed to be used with [Babel-powered coverage instrumentation](https://github.com/dtinth/babel-plugin-__coverage__) for fast, efficient testing with code coverage.
+- Support for all coverage reporting options in [Istanbul](https://github.com/gotwarlost/istanbul), including `html`, `text`, `cobertura`, etc.
+
 
 ## Usage
 ```
