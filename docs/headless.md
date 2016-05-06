@@ -2,9 +2,15 @@
 
 Electron requires `xvfb` in headless environments.
 
-For example, on Travis CI:
+Using `xvfb-run`:
+```
+xvfb-run --server-args='-screen 0 1024x768x24' unitest --browser=dist/test/browser.js
+```
 
-**`.travis.yml`**
+
+Or on Travis CI:
+
+`.travis.yml`
 ```yml
 language: node_js
 node_js:
@@ -23,3 +29,5 @@ install:
   - npm install
 script: npm run test
 ```
+
+
