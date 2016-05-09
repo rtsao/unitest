@@ -8,7 +8,7 @@ var ipc = require('electron').ipcMain;
 ipc.on('coverage', function (event, coverage) {
   process.send({'coverage': coverage}, function() {
     // exit electron after sending coverage
-    require('app').quit();
+    app.quit();
   });
 });
 
