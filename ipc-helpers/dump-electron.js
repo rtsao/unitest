@@ -3,6 +3,5 @@
 var ipcRenderer = require('electron').ipcRenderer;
 
 ipcRenderer.on('tap-finished', function sendCoverage() {
-  ipcRenderer.send('coverage', window.__coverage__);
-  require('remote').require('app').quit();
+  ipcRenderer.sendSync('coverage', window.__coverage__);
 });

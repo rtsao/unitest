@@ -5,8 +5,11 @@ var app = require('app');
 var BrowserWindow = require('browser-window');
 var ipc = require('electron').ipcMain;
 
-ipc.on('coverage', function (_, coverage) {
-  process.send({'coverage': coverage});
+ipc.on('coverage', function (event, coverage) {
+  process.send({'coverage': coverage}, function() {
+    // exit electron after sending coverage
+    require('app').quit();
+  });
 });
 
 app.on('ready', function () {
