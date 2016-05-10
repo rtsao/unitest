@@ -37,7 +37,7 @@ function ensureArray(arg) {
 }
 
 function logHelp() {
-  fs.createReadStream(path.join(__dirname, 'bin/usage.txt'))
+  fs.createReadStream(path.join(__dirname, 'usage.txt'))
     .pipe(process.stdout);
 }
 
