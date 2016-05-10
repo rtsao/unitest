@@ -2,6 +2,7 @@
 
 var test = require('tape');
 var path = require('path');
+var http = require('http');
 var spawn = require('child_process').spawn;
 var parser = require('tap-parser');
 
@@ -81,4 +82,14 @@ test('tap merging', function (t) {
   child.stdout.pipe(parser(function (results) {
     t.equal(results.asserts.length, 2);
   }));
+});
+
+test('redirect protocol relative url to http', function (t) {
+  t.plan(1);
+  var child = spawn('node', [cliPath,
+    '--browser', path.join(__dirname, 'fixtures/protocol-relative-request.js')
+  ]);
+  child.on('close', function (code) {
+    t.equal(code, 0);
+  });
 });
