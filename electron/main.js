@@ -13,25 +13,18 @@ ipc.on('coverage', function (event, coverage) {
 });
 
 app.on('ready', function () {
-
-
-  var protocol = require('protocol');
-
   win = new BrowserWindow({show: false});
-  win.loadURL('file://' + path.join(__dirname, 'index.html'));
-
-  win.webContents.on('did-frame-finish-load', function() {
-    protocol.interceptHttpProtocol('file', function (request, callback) {
-      request.url = request.url.replace(/^file:\/\//, 'http://');
-      console.log(request);
-      callback(request);
-    });
-  });
-
   process.on('message', function(message) {
     if (message.done) {
       win.webContents.send('tap-finished', true);
     }
+  });
+  win.loadURL('file://' + path.join(__dirname, 'index.html'));
+  win.webContents.on('did-frame-finish-load', function() {
+    require('protocol').interceptHttpProtocol('file', function (request, callback) {
+      request.url = request.url.replace(/^file:\/\//, 'http://');
+      callback(request);
+    });
   });
   win.webContents.executeJavaScript('require("./renderer");');
   win.webContents.executeJavaScript('require("' + process.argv[2] + '");');
