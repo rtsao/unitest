@@ -1,9 +1,10 @@
 #!/usr/bin/env electron
 
 var path = require('path');
-var app = require('app');
-var BrowserWindow = require('browser-window');
-var ipc = require('electron').ipcMain;
+var electron = require('electron');
+var ipc = electron.ipcMain;
+var app = electron.app;
+var BrowserWindow = electron.BrowserWindow;
 
 ipc.on('coverage', function (event, coverage) {
   process.send({'coverage': coverage}, function() {
@@ -21,7 +22,7 @@ app.on('ready', function () {
   });
   win.loadURL('file://' + path.join(__dirname, 'index.html'));
   win.webContents.on('did-frame-finish-load', function() {
-    require('protocol').interceptHttpProtocol('file', function (request, callback) {
+    electron.protocol.interceptHttpProtocol('file', function (request, callback) {
       request.url = request.url.replace(/^file:\/\//, 'http://');
       callback(request);
     });

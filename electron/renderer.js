@@ -1,7 +1,7 @@
 #!/usr/bin/env electron
 
 process.browser = true;
-process.exit = require('remote').require('app').quit;
+process.exit = require('electron').remote.app.exit;
 // redirect log to stdout
 console.log = require('console').log;
 // redirect errors to stderr

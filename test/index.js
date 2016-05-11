@@ -10,21 +10,22 @@ var runNode = require('../run-node');
 var runElectron = require('../run-electron');
 
 var cliPath = path.join(process.cwd(), 'bin/cli.js');
-var passingEntry = path.join(__dirname, 'fixtures/passing-test.js');
-var failingEntry = path.join(__dirname, 'fixtures/failing-test.js');
+
+var passingEntry = path.join(__dirname, 'fixtures/passing.js');
+var failingEntry = path.join(__dirname, 'fixtures/failing.js');
+var mockEntry = path.join(__dirname, 'fixtures/mock-entry.js');
+var errorEntry = path.join(__dirname, 'fixtures/error-entry.js');
 
 test('basic node coverage reporting', function (t) {
   t.plan(1);
-  var entry = path.join(__dirname, 'fixtures/mock-test-entry.js');
-  runNode(entry, function onCoverage(coverage) {
+  runNode(mockEntry, function onCoverage(coverage) {
     t.deepEqual(coverage, {});
   });
 });
 
 test('basic electron coverage reporting', function (t) {
   t.plan(1);
-  var entry = path.join(__dirname, 'fixtures/mock-test-entry.js');
-  runElectron(entry, function onCoverage(coverage) {
+  runElectron(mockEntry, function onCoverage(coverage) {
     t.deepEqual(coverage, {});
   });
 });
@@ -67,6 +68,39 @@ test('both failing status code', function (t) {
   var child = spawn('node', [cliPath,
     '--node', failingEntry,
     '--browser', failingEntry
+  ]);
+  child.on('close', function (code) {
+    t.equal(code, 1);
+  });
+});
+
+test('browser error status code', function (t) {
+  t.plan(1);
+  var child = spawn('node', [cliPath,
+    '--node', passingEntry,
+    '--browser', errorEntry
+  ]);
+  child.on('close', function (code) {
+    t.equal(code, 1);
+  });
+});
+
+test('browser error status code', function (t) {
+  t.plan(1);
+  var child = spawn('node', [cliPath,
+    '--node', errorEntry,
+    '--browser', passingEntry
+  ]);
+  child.on('close', function (code) {
+    t.equal(code, 1);
+  });
+});
+
+test('both error status code', function (t) {
+  t.plan(1);
+  var child = spawn('node', [cliPath,
+    '--node', errorEntry,
+    '--browser', errorEntry
   ]);
   child.on('close', function (code) {
     t.equal(code, 1);
