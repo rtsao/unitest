@@ -48,7 +48,7 @@ test('node failing only status code', function (t) {
     '--browser', passingEntry
   ]);
   child.on('close', function (code) {
-    t.equal(code, 1);
+    t.ok(code);
   });
 });
 
@@ -59,7 +59,7 @@ test('browser failing only status code', function (t) {
     '--browser', failingEntry
   ]);
   child.on('close', function (code) {
-    t.equal(code, 1);
+    t.ok(code);
   });
 });
 
@@ -70,7 +70,7 @@ test('both failing status code', function (t) {
     '--browser', failingEntry
   ]);
   child.on('close', function (code) {
-    t.equal(code, 1);
+    t.ok(code);
   });
 });
 
@@ -81,18 +81,18 @@ test('browser error status code', function (t) {
     '--browser', errorEntry
   ]);
   child.on('close', function (code) {
-    t.equal(code, 1);
+    t.ok(code);
   });
 });
 
-test('browser error status code', function (t) {
+test('node error status code', function (t) {
   t.plan(1);
   var child = spawn('node', [cliPath,
     '--node', errorEntry,
     '--browser', passingEntry
   ]);
   child.on('close', function (code) {
-    t.equal(code, 1);
+    t.ok(code);
   });
 });
 
@@ -103,7 +103,7 @@ test('both error status code', function (t) {
     '--browser', errorEntry
   ]);
   child.on('close', function (code) {
-    t.equal(code, 1);
+    t.ok(code);
   });
 });
 
