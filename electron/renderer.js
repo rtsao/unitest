@@ -7,8 +7,8 @@ console.log = require('console').log;
 // redirect errors to stderr
 window.addEventListener('error', function (e) {
   e.preventDefault();
-  require('console').error(e.error.stack || 'Uncaught ' + e.error);
+  process.stderr.write(e.error.stack || 'Uncaught ' + e.error);
   process.exit(1);
 });
-// setup stuff
+// setup coverage output
 require('../ipc-helpers/dump-electron');

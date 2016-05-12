@@ -26,10 +26,11 @@ function run(opts) {
 
   function runTest(runner, entry) {
     var sub = runner(path.resolve(process.cwd(), entry), coverageHandler);
-    var tap = passthrough();
-    sub.stdout.pipe(tap);
-    sub.stderr.pipe(process.stderr);
-    outputs.push(tap);
+    var out = passthrough();
+    var err = passthrough();
+    sub.stdout.pipe(out);
+    sub.stderr.pipe(err);
+    outputs.push(out, err);
   }
 
   if (opts.node) {
@@ -40,10 +41,10 @@ function run(opts) {
     runTest(runElectron, opts.browser);
   }
 
-  var allTap = multistream(outputs);
+  var allOutput = multistream(outputs);
   var merged = merge();
 
-  allTap.pipe(merged);
+  allOutput.pipe(merged);
   merged.pipe(process.stdout);
   
   if (opts.report) {
