@@ -6,8 +6,8 @@ var http = require('http');
 var spawn = require('child_process').spawn;
 var parser = require('tap-parser');
 
-var runNode = require('../run-node');
-var runElectron = require('../run-electron');
+var runNode = require('../lib/run-node');
+var runElectron = require('../lib/run-electron');
 
 var cliPath = path.join(process.cwd(), 'bin/cli.js');
 

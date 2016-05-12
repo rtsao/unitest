@@ -6,9 +6,9 @@ var passthrough = require('stream').PassThrough;
 var merge = require('tap-merge');
 var multistream = require('multistream');
 
-var runNode = require('./run-node');
-var runElectron = require('./run-electron');
-var reportCoverage = require('./report-coverage');
+var runNode = require('./lib/run-node');
+var runElectron = require('./lib/run-electron');
+var reportCoverage = require('./lib/report-coverage');
 
 function run(opts) {
   if (!opts.node && !opts.browser) {
