@@ -49,7 +49,6 @@ function run(opts) {
   
   if (opts.report) {
     merged.on('end', function() {
-      console.log('wtfff');
       reportCoverage(coverageObjects, opts.report);
     });
   }
