@@ -1,6 +1,12 @@
 'use strict';
 
-throw Error('an arror');
+var test = require('tape');
+
+test('a test with an error', function (t) {
+  t.pass('a passing assertion');
+  throw Error('an arror');
+  t.end();
+});
 
 /**
  * Mock coverage object

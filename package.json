@@ -17,6 +17,7 @@
     "getport": "^0.1.0",
     "istanbul": "^0.4.3",
     "istanbul-reporter-raw-json": "^1.0.1",
+    "merge2": "^1.0.2",
     "minimist": "^1.2.0",
     "multistream": "^2.0.5",
     "tap-finished": "0.0.1",

@@ -3,7 +3,8 @@
 var fs = require('fs');
 var path = require('path');
 var passthrough = require('stream').PassThrough;
-var merge = require('tap-merge');
+var tapMerge = require('tap-merge');
+var merge = require('merge2');
 var multistream = require('multistream');
 
 var runNode = require('./lib/run-node');
@@ -30,7 +31,8 @@ function run(opts) {
     var err = passthrough();
     sub.stdout.pipe(out);
     sub.stderr.pipe(err);
-    outputs.push(out, err);
+    var merged = merge([out, err]);
+    outputs.push(merged);
   }
 
   if (opts.node) {
@@ -42,7 +44,7 @@ function run(opts) {
   }
 
   var allOutput = multistream(outputs);
-  var merged = merge();
+  var merged = tapMerge();
 
   allOutput.pipe(merged);
   merged.pipe(process.stdout);
