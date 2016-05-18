@@ -22,11 +22,14 @@ if (argv.help) {
   logVersion();
 } else if (argv.node || argv.browser) {
   var unitest = require('../');
-  unitest({
+  var output = unitest({
     node: argv.node,
     browser: argv.browser,
     report: ensureArray(argv.report)
+  }, function (exitCode) {
+    process.exitCode = exitCode;
   });
+  output.pipe(process.stdout);
 } else {
   logHelp();
   process.exitCode = 1;
