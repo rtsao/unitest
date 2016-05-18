@@ -21,7 +21,7 @@ function run(opts, cb) {
   var outputs = [];
   var exitCodes = [];
 
-  function end(code) {
+  function finish(code) {
     if (opts.report) {
       reportCoverage(coverageObjects, opts.report);
     }
@@ -56,7 +56,7 @@ function run(opts, cb) {
   var exitCodeStream = multistream(exitCodes, {objectMode: true});
   exitCodeStream.pipe(reduce(function (acc, code) {
     return acc || code;
-  }, 0)).on('data', end);
+  }, 0)).on('data', finish);
 
   var allOutput = multistream(outputs);
   var merged = tapMerge();
