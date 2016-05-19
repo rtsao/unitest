@@ -1,6 +1,6 @@
 # API Usage
 
-```
+```javascript
 var unitest = require('unitest');
 
 var opts = {
