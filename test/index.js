@@ -15,6 +15,7 @@ var passingEntry = path.join(__dirname, 'fixtures/passing.js');
 var failingEntry = path.join(__dirname, 'fixtures/failing.js');
 var mockEntry = path.join(__dirname, 'fixtures/mock-entry.js');
 var errorEntry = path.join(__dirname, 'fixtures/error-entry.js');
+var exit123Entry = path.join(__dirname, 'fixtures/exit-123.js');
 
 test('basic node coverage reporting', function (t) {
   t.plan(1);
@@ -49,6 +50,16 @@ test('node failing only status code', function (t) {
   ]);
   child.on('close', function (code) {
     t.ok(code);
+  });
+});
+
+test('node failing only status code without browser', function (t) {
+  t.plan(1);
+  var child = spawn('node', [cliPath,
+    '--node', exit123Entry,
+  ]);
+  child.on('close', function (code) {
+    t.equal(code, 123);
   });
 });
 
