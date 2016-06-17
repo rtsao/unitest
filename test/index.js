@@ -59,7 +59,7 @@ test('node failing only status code without browser', function (t) {
     '--node', exit123Entry,
   ]);
   child.on('close', function (code) {
-    t.ok(code);
+    t.equal(code, 123);
   });
 });
 
