@@ -20,7 +20,7 @@
     "merge2": "^1.0.2",
     "minimist": "^1.2.0",
     "multistream": "^2.0.5",
-    "stream-reduce": "^1.0.3",
+    "run-parallel": "^1.1.6",
     "tap-finished": "0.0.1",
     "tap-merge": "^0.3.1"
   },

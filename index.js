@@ -5,8 +5,8 @@ var path = require('path');
 var passthrough = require('stream').PassThrough;
 var tapMerge = require('tap-merge');
 var merge = require('merge2');
-var reduce = require('stream-reduce');
 var multistream = require('multistream');
+var parallel = require('run-parallel');
 
 var runNode = require('./lib/run-node');
 var runElectron = require('./lib/run-electron');
@@ -17,9 +17,9 @@ function run(opts, cb) {
     throw Error('No browser or node test entry specified');
   }
 
+  var tests = [];
   var coverageObjects = [];
   var outputs = [];
-  var exitCodes = [];
 
   function finish(code) {
     if (opts.report) {
@@ -29,20 +29,20 @@ function run(opts, cb) {
   }
 
   function runTest(runner, entry) {
-    var out = passthrough();
-    var err = passthrough();
-    var code = passthrough({objectMode: true});
-    var sub = runner(path.resolve(process.cwd(), entry), function (coverage, exitCode) {
-      if (coverage) {
-        coverageObjects.push(coverage);
-      }
-      code.end(exitCode);
+    tests.push(function(done) {
+      var out = passthrough();
+      var err = passthrough();
+      var entryPath = path.resolve(process.cwd(), entry);
+      var sub = runner(entryPath, function(coverage, exitCode) {
+        if (coverage) {
+          coverageObjects.push(coverage);
+        }
+        done(null, exitCode);
+      });
+      sub.stdout.pipe(out);
+      sub.stderr.pipe(err);
+      outputs.push(merge([out, err]));
     });
-    sub.stdout.pipe(out);
-    sub.stderr.pipe(err);
-    var merged = merge([out, err]);
-    outputs.push(merged);
-    exitCodes.push(code);
   }
 
   if (opts.node) {
@@ -53,10 +53,12 @@ function run(opts, cb) {
     runTest(runElectron, opts.browser);
   }
 
-  var exitCodeStream = multistream(exitCodes, {objectMode: true});
-  exitCodeStream.pipe(reduce(function (acc, code) {
-    return acc || code;
-  }, 0)).on('data', finish);
+  parallel(tests, function(err, results) {
+    var finalCode = results.reduce(function(acc, code) {
+      return acc || code;
+    }, 0);
+    finish(finalCode);
+  });
 
   var allOutput = multistream(outputs);
   var merged = tapMerge();
