@@ -23,7 +23,7 @@ function run(opts, cb) {
 
   function finish(code) {
     if (opts.report) {
-      reportCoverage(coverageObjects, opts.report);
+      reportCoverage(coverageObjects, opts.report, opts.reportDir);
     }
     cb(code);
   }
