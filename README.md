@@ -11,7 +11,7 @@ Seamless node and browser unit testing with code coverage
 - Unified node and browser tests with merged TAP output, code coverage reports, and exit status codes.
 - [Electron](https://github.com/electron/electron)-powered browser testing for a fast, modern browser testing environment.
 - Bundler-agnostic usage. Use browserify, webpack, or something else.
-- Designed to be used with [Babel-powered coverage instrumentation](https://github.com/dtinth/babel-plugin-__coverage__) for fast, efficient testing with code coverage.
+- Designed to be used with [Babel-powered coverage instrumentation](https://github.com/istanbuljs/babel-plugin-istanbul) for fast, efficient testing with code coverage.
 - Support for all coverage reporting options in [Istanbul](https://github.com/gotwarlost/istanbul), including `html`, `text`, `cobertura`, etc.
 
 
@@ -48,7 +48,7 @@ unitest --browser=build/test/browser-bundle.js --node=build/test/node.js
 
 ### Run node and browser tests with coverage report
 
-Running tests with coverage involves the exact same steps, but with an additional [coverage instrumentation Babel plugin](https://github.com/dtinth/babel-plugin-__coverage__).
+Running tests with coverage involves the exact same steps, but with an additional [coverage instrumentation Babel plugin](https://github.com/istanbuljs/babel-plugin-istanbul).
 
 ```
 babel src -d build --plugins=__coverage__
@@ -58,13 +58,13 @@ unitest --browser=build/test/browser.js --node=build/test/node.js --report=html
 
 #### Merged test output
 
-The separate TAP and coverage output along with exit code for your node and browser tests will be merged intelligently.
+The separate TAP and coverage output along with exit code for your node and browser tests will be merged seamlessly.
 
 ## Debugging
 
 ### Debug node tests
 
-No magic here, just use [`node-inspector`](https://github.com/node-inspector/node-inspector).
+No magic here, just use [`node-inspector`](https://github.com/node-inspector/node-inspector) or plain node.
 
 ```
 npm install node-inspector -g
