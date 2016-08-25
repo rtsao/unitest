@@ -51,7 +51,7 @@ unitest --browser=build/test/browser-bundle.js --node=build/test/node.js
 Running tests with coverage involves the exact same steps, but with an additional [coverage instrumentation Babel plugin](https://github.com/istanbuljs/babel-plugin-istanbul).
 
 ```
-babel src -d build --plugins=__coverage__
+babel src -d build --plugins=istanbul
 browserify build/test/browser.js > build/test/browser-bundle.js
 unitest --browser=build/test/browser.js --node=build/test/node.js --report=html
 ```
