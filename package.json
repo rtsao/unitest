@@ -28,5 +28,8 @@
     "tap-parser": "~0.2.0",
     "tape": "^4.4.0"
   },
+  "engines": {
+    "npm" : "^3.0.0"
+  },
   "license": "MIT"
 }
