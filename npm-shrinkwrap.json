@@ -1,6 +1,6 @@
 {
   "name": "unitest",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "dependencies": {
     "electron-download": {
       "version": "2.1.2",
