@@ -12,6 +12,7 @@
     "test": "node test/index.js"
   },
   "dependencies": {
+    "backoff": "^2.5.0",
     "electron-prebuilt": "^1.0.0",
     "exit-code": "^1.0.2",
     "getport": "^0.1.0",
