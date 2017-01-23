@@ -16,6 +16,7 @@ var failingEntry = path.join(__dirname, 'fixtures/failing.js');
 var mockEntry = path.join(__dirname, 'fixtures/mock-entry.js');
 var errorEntry = path.join(__dirname, 'fixtures/error-entry.js');
 var exit123Entry = path.join(__dirname, 'fixtures/exit-123.js');
+var slowPassingEntry = path.join(__dirname, 'fixtures/slow-passing');
 
 test('basic node coverage reporting', function (t) {
   t.plan(1);
@@ -35,6 +36,28 @@ test('both passing status code', function (t) {
   t.plan(1);
   var child = spawn('node', [cliPath,
     '--node', passingEntry,
+    '--browser', passingEntry
+  ]);
+  child.on('close', function (code) {
+    t.equal(code, 0);
+  });
+});
+
+test('slow browser', function (t) {
+  t.plan(1);
+  var child = spawn('node', [cliPath,
+    '--node', passingEntry,
+    '--browser', slowPassingEntry
+  ]);
+  child.on('close', function (code) {
+    t.equal(code, 0);
+  });
+});
+
+test('slow node', function (t) {
+  t.plan(1);
+  var child = spawn('node', [cliPath,
+    '--node', slowPassingEntry,
     '--browser', passingEntry
   ]);
   child.on('close', function (code) {
