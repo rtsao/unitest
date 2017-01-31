@@ -9,5 +9,3 @@ Options:
        --node, -n  Path to node test entry file
 
     --browser, -c  Path to browser test entry file
-
-     --report, -r  Istanbul coverage report

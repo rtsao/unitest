@@ -10,7 +10,6 @@ var argv = minimist(process.argv.slice(2), {
   alias: {
     n: 'node',
     b: 'browser',
-    r: 'report',
     h: 'help',
     v: 'version'
   }
@@ -24,8 +23,7 @@ if (argv.help) {
   var unitest = require('../');
   var output = unitest({
     node: argv.node,
-    browser: argv.browser,
-    report: ensureArray(argv.report)
+    browser: argv.browser
   }, function (exitCode) {
     process.exitCode = exitCode;
   });
@@ -33,10 +31,6 @@ if (argv.help) {
 } else {
   logHelp();
   process.exitCode = 1;
-}
-
-function ensureArray(arg) {
-  return (arg && typeof arg === 'string') ? [arg] : arg;
 }
 
 function logHelp() {

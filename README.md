@@ -12,8 +12,7 @@ Seamless node and browser unit testing with code coverage
 - [Electron](https://github.com/electron/electron)-powered browser testing for a fast, modern browser testing environment.
 - Bundler-agnostic usage. Use browserify, webpack, or something else.
 - Designed to be used with [Babel-powered coverage instrumentation](https://github.com/istanbuljs/babel-plugin-istanbul) for fast, efficient testing with code coverage.
-- Support for all coverage reporting options in [Istanbul](https://github.com/gotwarlost/istanbul), including `html`, `text`, `cobertura`, etc.
-
+- Works seamlessly with [nyc](https://github.com/istanbuljs/nyc), the official Istanbul CLI.
 
 ## Usage
 ```
@@ -28,8 +27,6 @@ Options:
        --node, -n  Path to node test entry file
 
     --browser, -c  Path to browser test entry file
-
-     --report, -r  Istanbul coverage report
 ```
 
 ## Getting Started
@@ -48,12 +45,12 @@ unitest --browser=build/test/browser-bundle.js --node=build/test/node.js
 
 ### Run node and browser tests with coverage report
 
-Running tests with coverage involves the exact same steps, but with an additional [coverage instrumentation Babel plugin](https://github.com/istanbuljs/babel-plugin-istanbul).
+Unitest works with [`nyc`](https://github.com/istanbuljs/nyc), the Istanbul CLI. To run unitest with coverage, add the [Istanbul instrumentation Babel plugin](https://github.com/istanbuljs/babel-plugin-istanbul) then run unitest with nyc on the instrumented code:
 
 ```
 babel src -d build --plugins=istanbul
 browserify build/test/browser.js > build/test/browser-bundle.js
-unitest --browser=build/test/browser-bundle.js --node=build/test/node.js --report=html
+nyc --report=html unitest --browser=build/test/browser-bundle.js --node=build/test/node.js
 ```
 
 #### Merged test output

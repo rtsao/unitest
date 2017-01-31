@@ -22,9 +22,7 @@ function run(opts, cb) {
   var outputs = [];
 
   function finish(code) {
-    if (opts.report) {
-      reportCoverage(coverageObjects, opts.report, opts.reportDir);
-    }
+    reportCoverage(coverageObjects);
     cb(code);
   }
 
