@@ -53,7 +53,7 @@ Running tests with coverage involves the exact same steps, but with an additiona
 ```
 babel src -d build --plugins=istanbul
 browserify build/test/browser.js > build/test/browser-bundle.js
-unitest --browser=build/test/browser.js --node=build/test/node.js --report=html
+unitest --browser=build/test/browser-bundle.js --node=build/test/node.js --report=html
 ```
 
 #### Merged test output
