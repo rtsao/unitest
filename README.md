@@ -61,11 +61,10 @@ The separate TAP and coverage output along with exit code for your node and brow
 
 ### Debug node tests
 
-No magic here, just use [`node-inspector`](https://github.com/node-inspector/node-inspector) or plain node.
+No magic here, just use plain node.
 
 ```
-npm install node-inspector -g
-node-debug build/test/node.js
+node --inspect --debug-brk build/test/node.js
 ```
 
 ### Debug browser (electron) tests
