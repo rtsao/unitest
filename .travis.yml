@@ -6,6 +6,5 @@ addons:
       - google-chrome-stable
 language: node_js
 node_js:
-  - "lts"
   - "stable"
 script: which google-chrome
