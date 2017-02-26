@@ -31,7 +31,7 @@ server.listen(3007, (err) => {
 
   console.log(`server is listening`);
 
-  const chrome = spawn('google-chrome', [
+  const chrome = spawn('google-chrome-beta', [
     '--headless',
     '--remote-debugging-port=9222',
     '--disable-gpu',
