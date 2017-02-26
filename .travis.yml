@@ -1,9 +1,5 @@
 dist: trusty
 sudo: false
-addons:
-  apt:
-    packages:
-      - google-chrome-unstable
 language: node_js
 node_js:
   - "stable"
