@@ -38,6 +38,9 @@ server.listen(3007, (err) => {
     'http://localhost:3007'
     ], {stdio: 'inherit'});
 
+  setTimeout(() => {
+
+
 
     CDP((client) => {
         // extract domains
@@ -65,6 +68,7 @@ server.listen(3007, (err) => {
         console.error(err);
     });
 
+  }, 5000);
 
   setTimeout(() => {
     process.exit(0);
