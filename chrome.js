@@ -1,5 +1,8 @@
 const {execSync, spawn} = require('child_process');
 const http = require('http');
+const CDP = require('chrome-remote-interface');
+
+
 
 const chromeBin = execSync('which google-chrome', {encoding: 'utf8'});
 
@@ -35,9 +38,37 @@ server.listen(3007, (err) => {
     'http://localhost:3007'
     ], {stdio: 'inherit'});
 
+
+    CDP((client) => {
+        // extract domains
+        const {Network, Page} = client;
+        // setup handlers
+        Network.requestWillBeSent((params) => {
+            console.log(params.request.url);
+        });
+        Page.loadEventFired(() => {
+            client.close();
+        });
+        // enable events then start!
+        Promise.all([
+            Network.enable(),
+            Page.enable()
+        ]).then(() => {
+          console.log('WOAH');
+            return Page.navigate({url: 'https://github.com'});
+        }).catch((err) => {
+            console.error(err);
+            client.close();
+        });
+    }).on('error', (err) => {
+        // cannot connect to the remote endpoint
+        console.error(err);
+    });
+
+
   setTimeout(() => {
     process.exit(0);
-  }, 5000);
+  }, 60000);
 });
 
 
