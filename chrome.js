@@ -1,7 +1,7 @@
 const {execSync, spawn} = require('child_process');
 const http = require('http');
 
-const chromeBin = execSync('which google-chrome');
+const chromeBin = execSync('which google-chrome', {encoding: 'utf8'});
 
 console.log('chrome path:', chromeBin);
 
