@@ -1,18 +1,11 @@
-language: node_js
-node_js:
-  - "0.10"
-  - "0.12"
-  - 4
-  - 5
-  - 6
-  - 7
+dist: trusty
+sudo: false
 addons:
   apt:
     packages:
-      - xvfb
-before_install: if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
-install:
-  - export DISPLAY=':99.0'
-  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-  - npm install
-script: npm run test
+      - google-chrome-stable
+language: node_js
+node_js:
+  - "lts"
+  - "stable"
+script: which google-chrome
