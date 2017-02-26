@@ -34,8 +34,7 @@ server.listen(3007, (err) => {
   const chrome = spawn('google-chrome-beta', [
     '--headless',
     '--remote-debugging-port=9222',
-    '--disable-gpu',
-    'http://localhost:3007'
+    '--disable-gpu'
     ], {stdio: 'inherit'});
 
   setTimeout(() => {
@@ -44,7 +43,7 @@ server.listen(3007, (err) => {
 
     CDP((client) => {
         // extract domains
-        const {Network, Page} = client;
+        const {Network, Page, Runtime} = client;
         // setup handlers
         Network.requestWillBeSent((params) => {
             console.log(params.request.url);
@@ -58,7 +57,7 @@ server.listen(3007, (err) => {
             Page.enable()
         ]).then(() => {
           console.log('WOAH');
-            return Page.navigate({url: 'https://github.com'});
+            return Page.navigate({url: 'http://localhost:3007'});
         }).catch((err) => {
             console.error(err);
             client.close();
