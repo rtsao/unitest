@@ -3,4 +3,4 @@ sudo: false
 language: node_js
 node_js:
   - "stable"
-script: google-chrome --headless --remote-debugging-port=9222 --disable-gpu https://chromium.org
+script: google-chrome-beta --headless --remote-debugging-port=9222 --disable-gpu https://chromium.org
