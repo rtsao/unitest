@@ -3,7 +3,7 @@ sudo: false
 addons:
   apt:
     packages:
-      - google-chrome-beta
+      - google-chrome
 language: node_js
 node_js:
   - "stable"

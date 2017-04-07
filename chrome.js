@@ -8,7 +8,7 @@ const chromeBin = execSync('which google-chrome', {encoding: 'utf8'});
 
 console.log('chrome path:', chromeBin);
 
-const requestHandler = (request, response) => {  
+const requestHandler = (request, response) => {
   console.log('request', request.url);
   response.end(`
     <html>
@@ -24,14 +24,14 @@ const requestHandler = (request, response) => {
 
 const server = http.createServer(requestHandler);
 
-server.listen(3007, (err) => {  
+server.listen(3007, (err) => {
   if (err) {
     return console.log('something bad happened', err)
   }
 
   console.log(`server is listening`);
 
-  const chrome = spawn('google-chrome-beta', [
+  const chrome = spawn('google-chrome', [
     '--headless',
     '--remote-debugging-port=9222',
     '--disable-gpu'
@@ -73,6 +73,3 @@ server.listen(3007, (err) => {
     process.exit(0);
   }, 60000);
 });
-
-
-
