@@ -1,25 +1,25 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var passthrough = require('stream').PassThrough;
-var tapMerge = require('tap-merge');
-var merge = require('merge2');
-var multistream = require('multistream');
-var parallel = require('run-parallel');
+const fs = require('fs');
+const path = require('path');
+const {PassThrough} = require('stream');
+const tapMerge = require('tap-merge');
+const merge = require('merge2');
+const multistream = require('multistream');
+const parallel = require('run-parallel');
 
-var runNode = require('./lib/run-node');
-var runElectron = require('./lib/run-electron');
-var reportCoverage = require('./lib/report-coverage');
+const runNode = require('./lib/run-node');
+const runElectron = require('./lib/run-electron');
+const reportCoverage = require('./lib/report-coverage');
 
 function run(opts, cb) {
   if (!opts.node && !opts.browser) {
     throw Error('No browser or node test entry specified');
   }
 
-  var tests = [];
-  var coverageObjects = [];
-  var outputs = [];
+  const tests = [];
+  const coverageObjects = [];
+  const outputs = [];
 
   function finish(code) {
     reportCoverage(coverageObjects);
@@ -27,11 +27,11 @@ function run(opts, cb) {
   }
 
   function runTest(runner, entry) {
-    tests.push(function(done) {
-      var out = passthrough();
-      var err = passthrough();
-      var entryPath = path.resolve(process.cwd(), entry);
-      var sub = runner(entryPath, function(coverage, exitCode) {
+    tests.push(done => {
+      const out = PassThrough();
+      const err = PassThrough();
+      const entryPath = path.resolve(process.cwd(), entry);
+      const sub = runner(entryPath, (coverage, exitCode) => {
         if (coverage) {
           coverageObjects.push(coverage);
         }
@@ -51,15 +51,13 @@ function run(opts, cb) {
     runTest(runElectron, opts.browser);
   }
 
-  parallel(tests, function(err, results) {
-    var finalCode = results.reduce(function(acc, code) {
-      return acc || code;
-    }, 0);
+  parallel(tests, (err, results) => {
+    const finalCode = results.reduce((acc, code) => acc || code, 0);
     finish(finalCode);
   });
 
-  var allOutput = multistream(outputs);
-  var merged = tapMerge();
+  const allOutput = multistream(outputs);
+  const merged = tapMerge();
   allOutput.pipe(merged);
   return merged;
 }

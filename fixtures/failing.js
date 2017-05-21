@@ -2,7 +2,7 @@
 
 var test = require('tape');
 
-test('a failing test', function (t) {
+test('a failing test', t => {
   t.fail('a failing assertion');
   t.end();
 });

@@ -2,10 +2,10 @@
 
 var test = require('tape');
 
-test('test protocol relative url is http', function (t) {
+test('test protocol relative url is http', t => {
   t.plan(1);
   var req = new XMLHttpRequest();
-  req.addEventListener('load', function () {
+  req.addEventListener('load', () => {
     var res = JSON.parse(req.responseText);
     t.equal(res.url, 'http://httpbin.org/get');
     t.end();

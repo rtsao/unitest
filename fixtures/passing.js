@@ -2,7 +2,7 @@
 
 var test = require('tape');
 
-test('a passing test', function (t) {
+test('a passing test', t => {
   t.pass('a passing assertion');
   t.end();
 });

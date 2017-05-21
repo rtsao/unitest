@@ -1,188 +1,236 @@
 'use strict';
 
-var fs = require('fs');
-var test = require('tape');
-var path = require('path');
-var http = require('http');
-var spawn = require('child_process').spawn;
-var parser = require('tap-parser');
-var resolveBin = require('resolve-bin');
-var concat = require('concat-stream');
+const fs = require('fs');
+const test = require('tape');
+const path = require('path');
+const http = require('http');
+const spawn = require('child_process').spawn;
+const parser = require('tap-parser');
+const resolveBin = require('resolve-bin');
+const concat = require('concat-stream');
 
-var runNode = require('../lib/run-node');
-var runElectron = require('../lib/run-electron');
+const runNode = require('../lib/run-node');
+const runElectron = require('../lib/run-electron');
 
-var cliPath = path.join(process.cwd(), 'bin/cli.js');
-var nycPath = resolveBin.sync('nyc');
+const cliPath = path.join(process.cwd(), 'bin/cli.js');
+const nycPath = resolveBin.sync('nyc');
 
-var passingEntry = path.resolve(__dirname, '../fixtures/passing.js');
-var failingEntry = path.resolve(__dirname, '../fixtures/failing.js');
-var mockEntry = path.resolve(__dirname, '../fixtures/mock-entry.js');
-var errorEntry = path.resolve(__dirname, '../fixtures/error-entry.js');
-var exit123Entry = path.resolve(__dirname, '../fixtures/exit-123.js');
-var slowPassingEntry = path.resolve(__dirname, '../fixtures/slow-passing');
+const passingEntry = path.resolve(__dirname, '../fixtures/passing.js');
+const failingEntry = path.resolve(__dirname, '../fixtures/failing.js');
+const mockEntry = path.resolve(__dirname, '../fixtures/mock-entry.js');
+const errorEntry = path.resolve(__dirname, '../fixtures/error-entry.js');
+const exit123Entry = path.resolve(__dirname, '../fixtures/exit-123.js');
+const slowPassingEntry = path.resolve(__dirname, '../fixtures/slow-passing');
 
-test('basic node coverage reporting', function (t) {
+test('basic node coverage reporting', t => {
   t.plan(1);
   runNode(mockEntry, function onCoverage(coverage) {
     t.deepEqual(coverage, {});
   });
 });
 
-test('basic electron coverage reporting', function (t) {
+test('basic electron coverage reporting', t => {
   t.plan(1);
   runElectron(mockEntry, function onCoverage(coverage) {
     t.deepEqual(coverage, {});
   });
 });
 
-test('both passing status code', function (t) {
+test('both passing status code', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--node', passingEntry,
-    '--browser', passingEntry
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    passingEntry,
+    '--browser',
+    passingEntry,
   ]);
-  child.on('close', function (code) {
+  child.on('close', code => {
     t.equal(code, 0);
   });
 });
 
-test('slow browser', function (t) {
+test('slow browser', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--node', passingEntry,
-    '--browser', slowPassingEntry
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    passingEntry,
+    '--browser',
+    slowPassingEntry,
   ]);
-  child.on('close', function (code) {
+  child.on('close', code => {
     t.equal(code, 0);
   });
 });
 
-test('slow node', function (t) {
+test('slow node', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--node', slowPassingEntry,
-    '--browser', passingEntry
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    slowPassingEntry,
+    '--browser',
+    passingEntry,
   ]);
-  child.on('close', function (code) {
+  child.on('close', code => {
     t.equal(code, 0);
   });
 });
 
-test('node failing only status code', function (t) {
+test('node failing only status code', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--node', failingEntry,
-    '--browser', passingEntry
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    failingEntry,
+    '--browser',
+    passingEntry,
   ]);
-  child.on('close', function (code) {
+  child.on('close', code => {
     t.ok(code);
   });
 });
 
-test('node failing only status code without browser', function (t) {
+test('node failing only status code without browser', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--node', exit123Entry,
-  ]);
-  child.on('close', function (code) {
+  const child = spawn('node', [cliPath, '--node', exit123Entry]);
+  child.on('close', code => {
     t.equal(code, 123);
   });
 });
 
-test('browser failing only status code', function (t) {
+test('browser failing only status code', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--node', passingEntry,
-    '--browser', failingEntry
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    passingEntry,
+    '--browser',
+    failingEntry,
   ]);
-  child.on('close', function (code) {
+  child.on('close', code => {
     t.ok(code);
   });
 });
 
-test('both failing status code', function (t) {
+test('both failing status code', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--node', failingEntry,
-    '--browser', failingEntry
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    failingEntry,
+    '--browser',
+    failingEntry,
   ]);
-  child.on('close', function (code) {
+  child.on('close', code => {
     t.ok(code);
   });
 });
 
-test('browser error status code', function (t) {
+test('browser error status code', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--node', passingEntry,
-    '--browser', errorEntry
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    passingEntry,
+    '--browser',
+    errorEntry,
   ]);
-  child.on('close', function (code) {
+  child.on('close', code => {
     t.ok(code);
   });
 });
 
-test('node error status code', function (t) {
+test('node error status code', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--node', errorEntry,
-    '--browser', passingEntry
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    errorEntry,
+    '--browser',
+    passingEntry,
   ]);
-  child.on('close', function (code) {
+  child.on('close', code => {
     t.ok(code);
   });
 });
 
-test('both error status code', function (t) {
+test('both error status code', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--node', errorEntry,
-    '--browser', errorEntry
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    errorEntry,
+    '--browser',
+    errorEntry,
   ]);
-  child.on('close', function (code) {
+  child.on('close', code => {
     t.ok(code);
   });
 });
 
-test('tap merging', function (t) {
+test('tap merging', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--node', passingEntry,
-    '--browser', passingEntry
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    passingEntry,
+    '--browser',
+    passingEntry,
   ]);
-  child.stdout.pipe(parser(function (results) {
-    t.equal(results.asserts.length, 2);
-  }));
+  child.stdout.pipe(
+    parser(results => {
+      t.equal(results.asserts.length, 2);
+    })
+  );
 });
 
-test('redirect protocol relative url to http', function (t) {
+test('redirect protocol relative url to http', t => {
   t.plan(1);
-  var child = spawn('node', [cliPath,
-    '--browser', path.resolve(__dirname, '../fixtures/protocol-relative-request.js')
+  const child = spawn('node', [
+    cliPath,
+    '--browser',
+    path.resolve(__dirname, '../fixtures/protocol-relative-request.js'),
   ]);
-  child.on('close', function (code) {
+  child.on('close', code => {
     t.equal(code, 0);
   });
 });
 
-var expectedOutput = fs.readFileSync(path.resolve(__dirname, '../fixtures/expected-coverage-output.txt'), 'utf8');
+const expectedOutput = fs.readFileSync(
+  path.resolve(__dirname, '../fixtures/expected-coverage-output.txt'),
+  'utf8'
+);
 
-test('nyc coverage works', function (t) {
+test('nyc coverage works', t => {
   t.plan(2);
-  var child = spawn('node', [nycPath, cliPath,
-    '--node', path.resolve(__dirname, '../fixtures/foo-a.js'),
-    '--browser', path.resolve(__dirname, '../fixtures/foo-b.js')
+  const child = spawn('node', [
+    nycPath,
+    cliPath,
+    '--node',
+    path.resolve(__dirname, '../fixtures/foo-a.js'),
+    '--browser',
+    path.resolve(__dirname, '../fixtures/foo-b.js'),
   ]);
-  child.on('close', function (code) {
+  child.on('close', code => {
     t.equal(code, 0);
   });
-  child.stdout.pipe(concat(function(output) {
-    t.equal(trim(output.toString()), expectedOutput, 'coverage output matches expected');
-  }));
+  child.stdout.pipe(
+    concat(output => {
+      t.equal(
+        trim(output.toString()),
+        expectedOutput,
+        'coverage output matches expected'
+      );
+    })
+  );
 });
 
 // hack for xvfb/travis
 function trim(str) {
-  return str.replace(/Xlib:  extension "RANDR" missing on display ":99\.0"\.\n/g, '');
+  return str.replace(
+    /Xlib:  extension "RANDR" missing on display ":99\.0"\.\n/g,
+    ''
+  );
 }
