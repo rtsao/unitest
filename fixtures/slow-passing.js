@@ -2,8 +2,8 @@
 
 var test = require('tape');
 
-test('a slow passing test', function (t) {
-  setTimeout(function () {
+test('a slow passing test', t => {
+  setTimeout(() => {
     t.pass('a slow passing assertion');
     t.end();
   }, 500);
