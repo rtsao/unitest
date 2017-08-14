@@ -26,8 +26,14 @@ function run(opts, cb) {
     cb(code);
   }
 
-  function runTest(runner, entry) {
-    tests.push(done => {
+  function runTest(runner, paths) {
+    if (typeof paths === 'string') {
+        paths = [paths];
+    }
+    if (!Array.isArray(paths)) {
+      throw new Error("invalid test - expected paths as string or string array but got " + entry);
+    }
+    tests.push.apply(tests, paths.map(entry => done => {
       const out = PassThrough();
       const err = PassThrough();
       const entryPath = path.resolve(process.cwd(), entry);
@@ -40,7 +46,7 @@ function run(opts, cb) {
       sub.stdout.pipe(out);
       sub.stderr.pipe(err);
       outputs.push(merge([out, err]));
-    });
+    }));
   }
 
   if (opts.node) {
