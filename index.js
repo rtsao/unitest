@@ -28,8 +28,14 @@ function run(opts, cb) {
     cb(code);
   }
 
-  function runTest(runner, entry) {
-    tests.push(function(done) {
+  function runTest(runner, paths) {
+    if (typeof paths === 'string') {
+        paths = [paths];
+    }
+    if (!Array.isArray(paths)) {
+      throw new Error("invalid test - expected paths as string or string array but got " + entry);
+    }
+    tests.push.apply(tests, paths.map(function(entry){return function(done){
       var out = passthrough();
       var err = passthrough();
       var entryPath = path.resolve(process.cwd(), entry);
@@ -42,7 +48,7 @@ function run(opts, cb) {
       sub.stdout.pipe(out);
       sub.stderr.pipe(err);
       outputs.push(merge([out, err]));
-    });
+    }}));
   }
 
   if (opts.node) {
