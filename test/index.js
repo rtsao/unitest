@@ -9,6 +9,7 @@ const parser = require('tap-parser');
 const resolveBin = require('resolve-bin');
 const concat = require('concat-stream');
 
+const unitest = require('..');
 const runNode = require('../lib/run-node');
 const runElectron = require('../lib/run-electron');
 
@@ -21,6 +22,42 @@ const mockEntry = path.resolve(__dirname, '../fixtures/mock-entry.js');
 const errorEntry = path.resolve(__dirname, '../fixtures/error-entry.js');
 const exit123Entry = path.resolve(__dirname, '../fixtures/exit-123.js');
 const slowPassingEntry = path.resolve(__dirname, '../fixtures/slow-passing');
+
+test('API w/success', t => {
+  t.plan(1);
+  unitest({node: passingEntry, browser: passingEntry}, code =>
+    t.equal(code, 0)
+  );
+});
+
+test('API w/error', t => {
+  t.plan(1);
+  unitest({node: errorEntry, browser: passingEntry}, code =>
+    t.notEqual(code, 0)
+  );
+});
+
+test('API w/multiple', t => {
+  t.plan(1);
+  unitest(
+    {node: [passingEntry, passingEntry], browser: [passingEntry, passingEntry]},
+    code => t.equal(code, 0)
+  );
+});
+
+test('API w/multiple w/node error', t => {
+  t.plan(1);
+  unitest({node: [errorEntry, passingEntry], browser: passingEntry}, code =>
+    t.notEqual(code, 0)
+  );
+});
+
+test('API w/multiple w/browser error', t => {
+  t.plan(1);
+  unitest({node: passingEntry, browser: [errorEntry, passingEntry]}, code =>
+    t.notEqual(code, 0)
+  );
+});
 
 test('basic node coverage reporting', t => {
   t.plan(1);
