@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "backoff": "^2.5.0",
-    "electron": "^1.4.13",
+    "electron": "~1.4.13",
     "exit-code": "^1.0.2",
     "getport": "^0.1.0",
     "istanbul-lib-coverage": "^1.0.1",
