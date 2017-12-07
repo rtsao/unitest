@@ -11,7 +11,7 @@ const concat = require('concat-stream');
 
 const unitest = require('..');
 const runNode = require('../lib/run-node');
-const runElectron = require('../lib/run-electron');
+const runChrome = require('../lib/run-chrome');
 
 const cliPath = path.join(process.cwd(), 'bin/cli.js');
 const nycPath = resolveBin.sync('nyc');
@@ -21,18 +21,43 @@ const failingEntry = path.resolve(__dirname, '../fixtures/failing.js');
 const mockEntry = path.resolve(__dirname, '../fixtures/mock-entry.js');
 const errorEntry = path.resolve(__dirname, '../fixtures/error.js');
 const exit123Entry = path.resolve(__dirname, '../fixtures/exit-123.js');
-const slowPassingEntry = path.resolve(__dirname, '../fixtures/slow-passing');
+const slowPassingEntry = path.resolve(__dirname, '../fixtures/slow-passing.js');
+
+const passingEntryBrowser = path.resolve(
+  __dirname,
+  '../fixtures/browser/passing.js'
+);
+const failingEntryBrowser = path.resolve(
+  __dirname,
+  '../fixtures/browser/failing.js'
+);
+const mockEntryBrowser = path.resolve(
+  __dirname,
+  '../fixtures/browser/mock-entry.js'
+);
+const errorEntryBrowser = path.resolve(
+  __dirname,
+  '../fixtures/browser/error.js'
+);
+const exit123EntryBrowser = path.resolve(
+  __dirname,
+  '../fixtures/browser/exit-123.js'
+);
+const slowPassingEntryBrowser = path.resolve(
+  __dirname,
+  '../fixtures/browser/slow-passing.js'
+);
 
 test('API w/success', t => {
   t.plan(1);
-  unitest({node: passingEntry, browser: passingEntry}, code =>
+  unitest({node: passingEntry, browser: passingEntryBrowser}, code =>
     t.equal(code, 0)
   );
 });
 
 test('API w/error', t => {
   t.plan(1);
-  unitest({node: errorEntry, browser: passingEntry}, code =>
+  unitest({node: errorEntry, browser: passingEntryBrowser}, code =>
     t.notEqual(code, 0)
   );
 });
@@ -40,22 +65,27 @@ test('API w/error', t => {
 test('API w/multiple', t => {
   t.plan(1);
   unitest(
-    {node: [passingEntry, passingEntry], browser: [passingEntry, passingEntry]},
+    {
+      node: [passingEntry, passingEntry],
+      browser: [passingEntryBrowser, passingEntryBrowser],
+    },
     code => t.equal(code, 0)
   );
 });
 
 test('API w/multiple w/node error', t => {
   t.plan(1);
-  unitest({node: [errorEntry, passingEntry], browser: passingEntry}, code =>
-    t.notEqual(code, 0)
+  unitest(
+    {node: [errorEntry, passingEntry], browser: passingEntryBrowser},
+    code => t.notEqual(code, 0)
   );
 });
 
 test('API w/multiple w/browser error', t => {
   t.plan(1);
-  unitest({node: passingEntry, browser: [errorEntry, passingEntry]}, code =>
-    t.notEqual(code, 0)
+  unitest(
+    {node: passingEntry, browser: [errorEntryBrowser, passingEntryBrowser]},
+    code => t.notEqual(code, 0)
   );
 });
 
@@ -68,7 +98,7 @@ test('basic node coverage reporting', t => {
 
 test('basic electron coverage reporting', t => {
   t.plan(1);
-  runElectron(mockEntry, function onCoverage(coverage) {
+  runChrome(mockEntryBrowser, function onCoverage(coverage) {
     t.deepEqual(coverage, {});
   });
 });
@@ -80,7 +110,7 @@ test('both passing status code', t => {
     '--node',
     passingEntry,
     '--browser',
-    passingEntry,
+    passingEntryBrowser,
   ]);
   child.on('close', code => {
     t.equal(code, 0);
@@ -94,7 +124,7 @@ test('slow browser', t => {
     '--node',
     passingEntry,
     '--browser',
-    slowPassingEntry,
+    slowPassingEntryBrowser,
   ]);
   child.on('close', code => {
     t.equal(code, 0);
@@ -108,7 +138,7 @@ test('slow node', t => {
     '--node',
     slowPassingEntry,
     '--browser',
-    passingEntry,
+    passingEntryBrowser,
   ]);
   child.on('close', code => {
     t.equal(code, 0);
@@ -122,7 +152,7 @@ test('node failing only status code', t => {
     '--node',
     failingEntry,
     '--browser',
-    passingEntry,
+    passingEntryBrowser,
   ]);
   child.on('close', code => {
     t.ok(code);
@@ -144,7 +174,7 @@ test('browser failing only status code', t => {
     '--node',
     passingEntry,
     '--browser',
-    failingEntry,
+    failingEntryBrowser,
   ]);
   child.on('close', code => {
     t.ok(code);
@@ -158,7 +188,7 @@ test('both failing status code', t => {
     '--node',
     failingEntry,
     '--browser',
-    failingEntry,
+    failingEntryBrowser,
   ]);
   child.on('close', code => {
     t.ok(code);
@@ -172,7 +202,7 @@ test('browser error status code', t => {
     '--node',
     passingEntry,
     '--browser',
-    errorEntry,
+    errorEntryBrowser,
   ]);
   child.on('close', code => {
     t.ok(code);
@@ -186,7 +216,7 @@ test('node error status code', t => {
     '--node',
     errorEntry,
     '--browser',
-    passingEntry,
+    passingEntryBrowser,
   ]);
   child.on('close', code => {
     t.ok(code);
@@ -200,7 +230,7 @@ test('both error status code', t => {
     '--node',
     errorEntry,
     '--browser',
-    errorEntry,
+    errorEntryBrowser,
   ]);
   child.on('close', code => {
     t.ok(code);
@@ -214,7 +244,7 @@ test('tap merging', t => {
     '--node',
     passingEntry,
     '--browser',
-    passingEntry,
+    passingEntryBrowser,
   ]);
   child.stdout.pipe(
     parser(results => {
@@ -228,7 +258,7 @@ test('redirect protocol relative url to http', t => {
   const child = spawn('node', [
     cliPath,
     '--browser',
-    path.resolve(__dirname, '../fixtures/protocol-relative-request.js'),
+    path.resolve(__dirname, '../fixtures/browser/protocol-relative-request.js'),
   ]);
   child.on('close', code => {
     t.equal(code, 0);
@@ -248,7 +278,7 @@ test('nyc coverage works', t => {
     '--node',
     path.resolve(__dirname, '../fixtures/foo-a.js'),
     '--browser',
-    path.resolve(__dirname, '../fixtures/foo-b.js'),
+    path.resolve(__dirname, '../fixtures/browser/foo-b.js'),
   ]);
   child.on('close', code => {
     t.equal(code, 0);
@@ -256,18 +286,10 @@ test('nyc coverage works', t => {
   child.stdout.pipe(
     concat(output => {
       t.equal(
-        trim(output.toString()),
+        output.toString(),
         expectedOutput,
         'coverage output matches expected'
       );
     })
   );
 });
-
-// hack for xvfb/travis
-function trim(str) {
-  return str.replace(
-    /Xlib:  extension "RANDR" missing on display ":99\.0"\.\n/g,
-    ''
-  );
-}

@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-require('exit-code');
-
 const fs = require('fs');
 const path = require('path');
 const minimist = require('minimist');
@@ -20,8 +18,15 @@ if (argv.help) {
 } else if (argv.version) {
   logVersion();
 } else if (argv.node || argv.browser) {
+  run();
+} else {
+  logHelp();
+  process.exitCode = 1;
+}
+
+async function run() {
   const unitest = require('../');
-  const output = unitest(
+  const output = await unitest(
     {
       node: argv.node,
       browser: argv.browser,
@@ -31,9 +36,6 @@ if (argv.help) {
     }
   );
   output.pipe(process.stdout);
-} else {
-  logHelp();
-  process.exitCode = 1;
 }
 
 function logHelp() {
