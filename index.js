@@ -9,10 +9,10 @@ const multistream = require('multistream');
 const parallel = require('run-parallel');
 
 const runNode = require('./lib/run-node');
-const runElectron = require('./lib/run-electron');
+const runChrome = require('./lib/run-chrome');
 const reportCoverage = require('./lib/report-coverage');
 
-function run(opts, cb) {
+async function run(opts, cb) {
   if (!opts.node && !opts.browser) {
     throw Error('No browser or node test entry specified');
   }
@@ -38,11 +38,12 @@ function run(opts, cb) {
     }
     tests.push.apply(
       tests,
-      paths.map(entry => done => {
+      paths.map(entry => async done => {
         const out = PassThrough();
         const err = PassThrough();
+        outputs.push(merge([out, err]));
         const entryPath = path.resolve(process.cwd(), entry);
-        const sub = runner(entryPath, (coverage, exitCode) => {
+        const sub = await runner(entryPath, (coverage, exitCode) => {
           if (coverage) {
             coverageObjects.push(coverage);
           }
@@ -50,7 +51,6 @@ function run(opts, cb) {
         });
         sub.stdout.pipe(out);
         sub.stderr.pipe(err);
-        outputs.push(merge([out, err]));
       })
     );
   }
@@ -60,7 +60,7 @@ function run(opts, cb) {
   }
 
   if (opts.browser) {
-    runTest(runElectron, opts.browser);
+    runTest(runChrome, opts.browser);
   }
 
   parallel(tests, (err, results) => {

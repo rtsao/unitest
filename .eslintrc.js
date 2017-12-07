@@ -3,7 +3,7 @@ module.exports = {
     node: false
   },
   parserOptions: {
-    ecmaVersion: 6
+    ecmaVersion: 2017
   },
   plugins: ['prettier'],
   rules: {

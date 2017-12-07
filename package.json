@@ -10,14 +10,14 @@
   "bin": "bin/cli.js",
   "scripts": {
     "lint": "eslint .",
-    "pretest": "rm -rf .nyc_output/* && babel --plugins=istanbul fixtures/uninstrumented -d fixtures/instrumented",
+    "fixtures": "babel --plugins=istanbul fixtures/uninstrumented -d fixtures/instrumented && globify 'fixtures/*.js' --outfile=fixtures/browser",
+    "pretest": "rm -rf .nyc_output/* && npm run fixtures",
     "test": "npm run lint && node test/index.js"
   },
   "dependencies": {
-    "backoff": "^2.5.0",
-    "electron": "^1.4.13",
-    "exit-code": "^1.0.2",
-    "getport": "^0.1.0",
+    "chrome-launcher": "^0.9.0",
+    "chrome-remote-interface": "^0.25.4",
+    "get-port": "^3.2.0",
     "istanbul-lib-coverage": "^1.0.1",
     "merge2": "1.0.3",
     "minimist": "^1.2.0",
@@ -30,8 +30,9 @@
     "babel-cli": "^6.22.2",
     "babel-plugin-istanbul": "^3.1.2",
     "concat-stream": "^1.6.0",
-    "eslint": "^3.19.0",
+    "eslint": "^4.0.0",
     "eslint-plugin-prettier": "^2.1.1",
+    "globify": "^2.2.1",
     "nyc": "^10.1.2",
     "prettier": "^1.3.1",
     "resolve-bin": "^0.4.0",
@@ -39,7 +40,7 @@
     "tape": "^4.4.0"
   },
   "engines": {
-    "npm": "^3.0.0"
+    "node": ">= 8.9.0"
   },
   "license": "MIT"
 }

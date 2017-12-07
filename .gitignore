@@ -2,4 +2,5 @@ node_modules/
 coverage/
 npm-debug.log
 fixtures/instrumented/
+fixtures/browser/
 .nyc_output/
