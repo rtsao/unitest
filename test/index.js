@@ -19,7 +19,7 @@ const nycPath = resolveBin.sync('nyc');
 const passingEntry = path.resolve(__dirname, '../fixtures/passing.js');
 const failingEntry = path.resolve(__dirname, '../fixtures/failing.js');
 const mockEntry = path.resolve(__dirname, '../fixtures/mock-entry.js');
-const errorEntry = path.resolve(__dirname, '../fixtures/error-entry.js');
+const errorEntry = path.resolve(__dirname, '../fixtures/error.js');
 const exit123Entry = path.resolve(__dirname, '../fixtures/exit-123.js');
 const slowPassingEntry = path.resolve(__dirname, '../fixtures/slow-passing');
 
