@@ -9,7 +9,7 @@ Seamless node and browser unit testing with code coverage
 ##### Features
 
 - Unified node and browser tests with merged TAP output, code coverage reports, and exit status codes.
-- [Electron](https://github.com/electron/electron)-powered browser testing for a fast, modern browser testing environment.
+- Headless Chrome-powered browser testing for a fast, modern browser testing environment.
 - Bundler-agnostic usage. Use browserify, webpack, or something else.
 - Designed to be used with [Babel-powered coverage instrumentation](https://github.com/istanbuljs/babel-plugin-istanbul) for fast, efficient testing with code coverage.
 - Works seamlessly with [nyc](https://github.com/istanbuljs/nyc), the official Istanbul CLI.
@@ -34,7 +34,7 @@ Options:
 ### Run node and browser tests
 
 1. Transpile source code with Babel *(optional)*
-2. Bundle browser code *(this step is possibly optional since `require` works in electron)*
+2. Bundle browser code
 3. Run `unitest`, specifying test entry files
 
 ```
@@ -64,17 +64,12 @@ The separate TAP and coverage output along with exit code for your node and brow
 No magic here, just use plain node.
 
 ```
-node --inspect --debug-brk build/test/node.js
+node --inspect-brk build/test/node.js
 ```
 
-### Debug browser (electron) tests
+### Debug browser tests
 
-No magic here, just use [`devtool`](https://github.com/Jam3/devtool).
-
-```
-npm install devtool -g
-devtool build/test/browser-bundle.js
-```
+Coming soon: ability to launch Chrome with a DevTools window open, or let you connect to the script URL manually.
 
 [build-badge]: https://travis-ci.org/rtsao/unitest.svg?branch=master
 [build-href]: https://travis-ci.org/rtsao/unitest
