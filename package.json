@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "fixtures": "babel --plugins=istanbul fixtures/uninstrumented -d fixtures/instrumented && globify 'fixtures/*.js' --outfile=fixtures/browser",
     "pretest": "rm -rf .nyc_output/* && npm run fixtures",
-    "test": "npm run lint && node test/index.js"
+    "just-test": "node test/index.js",
+    "test": "npm run lint && npm run just-test"
   },
   "dependencies": {
     "chrome-launcher": "^0.9.0",

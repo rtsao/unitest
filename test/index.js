@@ -20,6 +20,10 @@ const passingEntry = path.resolve(__dirname, '../fixtures/passing.js');
 const failingEntry = path.resolve(__dirname, '../fixtures/failing.js');
 const mockEntry = path.resolve(__dirname, '../fixtures/mock-entry.js');
 const errorEntry = path.resolve(__dirname, '../fixtures/error.js');
+const unhandledEntry = path.resolve(
+  __dirname,
+  '../fixtures/unhandled-rejection.js'
+);
 const exit123Entry = path.resolve(__dirname, '../fixtures/exit-123.js');
 const slowPassingEntry = path.resolve(__dirname, '../fixtures/slow-passing.js');
 
@@ -38,6 +42,10 @@ const mockEntryBrowser = path.resolve(
 const errorEntryBrowser = path.resolve(
   __dirname,
   '../fixtures/browser/error.js'
+);
+const unhandledEntryBrowser = path.resolve(
+  __dirname,
+  '../fixtures/browser/unhandled-rejection.js'
 );
 const exit123EntryBrowser = path.resolve(
   __dirname,
@@ -234,6 +242,34 @@ test('both error status code', t => {
   ]);
   child.on('close', code => {
     t.ok(code);
+  });
+});
+
+test('node unhandled rejection status code', t => {
+  t.plan(1);
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    unhandledEntry,
+    '--browser',
+    passingEntryBrowser,
+  ]);
+  child.on('close', code => {
+    t.ok(code, 'exits with a non-zero status code');
+  });
+});
+
+test('browser unhandled rejection status code', t => {
+  t.plan(1);
+  const child = spawn('node', [
+    cliPath,
+    '--node',
+    passingEntry,
+    '--browser',
+    unhandledEntryBrowser,
+  ]);
+  child.on('close', code => {
+    t.ok(code, 'exits with a non-zero status code');
   });
 });
 
