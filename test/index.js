@@ -5,7 +5,7 @@ const test = require('tape');
 const path = require('path');
 const http = require('http');
 const spawn = require('child_process').spawn;
-const parser = require('tap-parser');
+const Parser = require('tap-parser');
 const resolveBin = require('resolve-bin');
 const concat = require('concat-stream');
 
@@ -283,8 +283,8 @@ test('tap merging', t => {
     passingEntryBrowser,
   ]);
   child.stdout.pipe(
-    parser(results => {
-      t.equal(results.asserts.length, 2);
+    new Parser(results => {
+      t.equal(results.count, 2);
     })
   );
 });
