@@ -19,6 +19,7 @@
     "chrome-launcher": "^0.10.0",
     "chrome-remote-interface": "^0.25.5",
     "get-port": "^3.2.0",
+    "is-docker": "^1.1.0",
     "istanbul-lib-coverage": "^1.1.1",
     "merge2": "1.2.0",
     "minimist": "^1.2.0",
