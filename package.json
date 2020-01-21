@@ -16,7 +16,7 @@
     "test": "npm run lint && npm run just-test"
   },
   "dependencies": {
-    "chrome-launcher": "^0.10.0",
+    "chrome-launcher": "^0.11.2",
     "chrome-remote-interface": "^0.25.5",
     "get-port": "^3.2.0",
     "is-docker": "^1.1.0",
