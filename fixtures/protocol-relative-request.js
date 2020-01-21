@@ -7,7 +7,7 @@ test('test protocol relative url is http', t => {
   var req = new XMLHttpRequest();
   req.addEventListener('load', () => {
     var res = JSON.parse(req.responseText);
-    t.equal(res.url, 'http://httpbin.org/get');
+    t.equal(res.url, 'https://httpbin.org/get');
     t.end();
   });
   req.open('GET', '//httpbin.org/get');

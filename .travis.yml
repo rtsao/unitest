@@ -9,9 +9,7 @@ before_install:
 cache:
   yarn: true
 addons:
-  apt:
-    packages:
-      - google-chrome-stable
+  chrome: stable
 script:
   - yarn lint
   - yarn fixtures
